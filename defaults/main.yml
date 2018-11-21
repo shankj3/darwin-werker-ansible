@@ -1,0 +1,15 @@
+nsqd_ip: 172.17.0.1
+nsqd_port: 4150
+nsqlookupd_ip: 172.17.0.1
+nsqlookupd_port: 4161
+nsqlookupd_tcp_port: 4160
+loopback_ip: localhost 
+consul_http_addr: "http://172.17.0.1:8500"
+consul_ip: "localhost"
+consul_port: "8500"
+private_reg_url: ""
+private_reg_user: "admin"
+private_reg_password: ""
+register_ip: ""
+version: ""
+pathprefix: ""

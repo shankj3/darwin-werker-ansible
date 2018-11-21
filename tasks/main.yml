@@ -1,0 +1,37 @@
+- name: install wget 
+  homebrew:
+    name: wget
+    state: present
+- name: download, extract and install werker zip archive
+  unarchive:
+    src: "https://s3-us-west-2.amazonaws.com/ocelotty/darwin-werker{{version}}.zip"
+    dest: /usr/local/bin
+    mode: 0755
+    remote_src: yes
+  become: true
+- name: Print version
+  debug:
+    msg: "ipaddr: {{ansible_default_ipv4.address}}"
+- name: Print version
+  debug:
+    msg: "home: {{ ansible_env.HOME }}"
+- name: create mac launchctl plist
+  template:
+    src: com.werker.level11.plist.j2
+    dest: /Library/LaunchDaemons/com.werker.level11.plist
+  become: true
+- name: set up log rotation
+  template:
+    src: werker.conf
+    dest: /etc/newsyslog.d/werker.conf
+  become: true
+- name: unload 
+  shell: launchctl unload /Library/LaunchDaemons/com.werker.level11.plist
+  register: unload
+  become: true
+  failed_when: unload.rc == 90
+- name: load the service 
+  shell: launchctl load /Library/LaunchDaemons/com.werker.level11.plist
+  become: true
+- name: check that process is running
+  shell: ps aux | grep werker | grep -v grep

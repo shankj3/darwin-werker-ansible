@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>SessionCreate</key>
+    <true/>
+    <key>EnvironmentVariables</key>
+    <dict>
+           <key>CONSUL_HTTP_ADDR</key>
+           <string>http://{{consul_ip}}:{{consul_port}}</string>
+           
+           <key>CONSUL_HOST</key>
+           <string>{{consul_ip}}</string>
+           
+           <key>CONSUL_PORT</key>
+           <string>{{consul_port}}</string>
+           
+           <key>NSQLOOKUPD_IP</key>
+           <string>{{nsqlookupd_ip}}</string>
+           
+           <key>NSQLOOKUPD_PORT</key>
+           <string>{{nsqlookupd_port}}</string>
+           
+           <key>NSQLOOKUPD_TCP_PORT</key>
+           <string>{{nsqlookupd_tcp_port}}</string>
+           
+           <key>VAULT_ADDR</key>
+           <string>{{vault_addr}}</string>
+           
+           <key>VAULT_TOKEN</key>
+           <string>{{vault_token}}</string>
+
+           <key>LOOPBACK_IP</key>
+           <string>{{loopback_ip}}</string>
+
+           <key>HOME</key>
+           <string>{{ ansible_env.HOME }}</string>
+           <key>PATH</key>
+           <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+           <key>UserName</key>
+          <string>{{ ansible_env.LOGNAME }}</string>
+    </dict>
+    <key>UserName</key>
+    <string>{{ ansible_env.LOGNAME }}</string>
+    <key>Label</key>
+    <string>com.werker.level11</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>security unlock-keychain -p leveler login.keychain-db && /usr/local/bin/werker {% if register_ip == "" %}-register-ip={{ansible_default_ipv4.address}}{% else %}-register-ip={{ register_ip }}{% endif %} -type=exec -tags=ios,baremetal -log-level=debug</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/var/tmp/werker.stdout</string>
+    <key>StandardErrorPath</key>
+    <string>/var/tmp/werker.stderr</string>
+</dict>
+</plist>
